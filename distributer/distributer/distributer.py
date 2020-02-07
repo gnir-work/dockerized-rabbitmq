@@ -19,6 +19,11 @@ def send_message(channel: BlockingChannel, body: str):
     )
     
 def run_distributer(connection):
+    """
+    Runs the distributer after we have established a connection.
+    
+    :param connection: The established connection.
+    """
     channel = connection.channel()
 
     channel.queue_declare(queue=QUEUE_NAME)
