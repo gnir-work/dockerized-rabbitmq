@@ -1,5 +1,5 @@
 POETRY_EXPORT_COMMAND=poetry export -f requirements.txt --without-hashes > requirments.txt
-STACK_NAME=cool_stack
+STACK_NAME=dockerized-rabbitmq
 IP_ADDRESS=hostname -I | awk '{print $$1}'
 
 deploy: build init_swarm
@@ -21,15 +21,13 @@ leave_swarm:
 develop: build
 	docker-compose up --build --force-recreate
 
-build: create_requirmenets build_worker build_distributer
+build: build_worker build_distributer
 
-build_distributer:
+build_distributer: create_distributer_requirements
 	docker build -t distributer distributer
 
-build_worker:
+build_worker: create_worker_requirements
 	docker build -t worker worker
-
-create_requirmenets: create_worker_requirements create_distributer_requirements
 
 create_distributer_requirements:
 	cd distributer && $(POETRY_EXPORT_COMMAND)
