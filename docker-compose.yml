@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services: 
     rabbitmq:
         image: rabbitmq:3.8-alpine
@@ -7,8 +7,12 @@ services:
             - "15672:15672"
     distributer:
         image: distributer
+        depends_on: 
+            - rabbitmq
     worker:
         image: worker
+        depends_on: 
+            - rabbitmq
         deploy:
             mode: replicated
             replicas: 3
