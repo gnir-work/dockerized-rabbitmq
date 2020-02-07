@@ -6,6 +6,9 @@ services:
             - "5672:5672"
             - "15672:15672"
     distributer:
-        build: distributer
+        image: distributer
     worker:
-        build: worker
+        image: worker
+        deploy:
+            mode: replicated
+            replicas: 3
